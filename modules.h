@@ -10,6 +10,7 @@ class Movie {
 public:
 	static Movie* MovieIn(std::ifstream& _inputStream);
 	std::string _name;
+	std::string _country;
 	Movie();
 	~Movie();
 	virtual void input(std::ifstream& _inputStream);
