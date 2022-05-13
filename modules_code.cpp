@@ -1,7 +1,13 @@
 #include "modules.h"
 
+enum class Movie::_keyType{
+	GAMING,
+	CARTOON
+};
+
 Movie::Movie() {
 	this->_name = "";
+	_key = _keyType::CARTOON;
 };
 
 Movie::~Movie() {
@@ -34,6 +40,7 @@ void Movie::output(std::ofstream& _outputStream) {
 Gaming::Gaming() {
 	this->_director = NULL;
 	this->_name = "";
+	_key = _keyType::GAMING;
 };
 
 Gaming::~Gaming() {
@@ -54,6 +61,7 @@ void Gaming::output(std::ofstream& _outputStream) {
 Cartoon::Cartoon() {
 	this->_creationMethod = typeOfCartoon::animation;
 	this->_name = "";
+	_key = _keyType::CARTOON;
 };
 
 Cartoon::~Cartoon() {
@@ -162,12 +170,37 @@ void Container::print(std::ofstream& _outputStream) {
 	unsigned long long int _count = 0;
 	ContainerNode* _current = this->_head;
 	if (_current != NULL) {
-		do {
-			_count++;
-			_current->_data->output(_outputStream);
-			_current = _current->_next;
-		} while (_current != this->_head);
-		_outputStream << "Total " << _count << " movies";
+		std::cout << "Skip ?\nEnter 0 if no skip, else enter\n1 if skip GAMING\n2 if skip CARTOON\n";
+		int _skip = 0;
+		std::cin >> _skip;
+		if (_skip == 0) {
+			do {
+				_count++;
+				_current->_data->output(_outputStream);
+				_current = _current->_next;
+			} while (_current != this->_head);
+			_outputStream << "Total " << _count << " movies";
+		}
+		else if (_skip == 1) {
+			do {
+				if (_current->_data->_key == Movie::_keyType::CARTOON) {
+					_count++;
+					_current->_data->output(_outputStream);
+				};
+				_current = _current->_next;
+			} while (_current != this->_head);
+			_outputStream << "Total " << _count << " CARTOON movies";
+		}
+		else if (_skip == 2) {
+			do {
+				if (_current->_data->_key == Movie::_keyType::GAMING) {
+					_count++;
+					_current->_data->output(_outputStream);
+				};
+				_current = _current->_next;
+			} while (_current != this->_head);
+			_outputStream << "Total " << _count << " GAMING movies";
+		};
 	};
 };
 
