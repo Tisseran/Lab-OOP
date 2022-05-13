@@ -13,6 +13,7 @@ public:
 	std::string _country;
 	Movie();
 	~Movie();
+	unsigned int countOfVowels();
 	virtual void input(std::ifstream& _inputStream);
 	virtual void output(std::ofstream& _outputStream);
 };
