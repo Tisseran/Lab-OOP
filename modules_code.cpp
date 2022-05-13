@@ -22,18 +22,17 @@ Movie* Movie::MovieIn(std::ifstream& _inputStream) {
 };
 
 void Movie::input(std::ifstream& _inputStream) {
-	std::string _tempString = "";
-	_inputStream >> _tempString;
-	this->_name = _tempString;
+	_inputStream >> this->_name >> this->_country;
 };
 
 void Movie::output(std::ofstream& _outputStream) {
-	_outputStream << this->_name << '\n';
+	_outputStream << this->_name << this->_country << '\n';
 };
 
 Gaming::Gaming() {
 	this->_director = NULL;
 	this->_name = "";
+	this->_country = "";
 };
 
 Gaming::~Gaming() {
@@ -42,25 +41,26 @@ Gaming::~Gaming() {
 
 void Gaming::input(std::ifstream& _inputStream) {
 	std::string _tempData = "";
-	_inputStream >> this->_name >> _tempData;
+	_inputStream >> this->_name >> this->_country >> _tempData;
 	this->_director = new char[_tempData.size()+1]{'\n'};
 	strcpy(this->_director, _tempData.c_str());
 };
 
 void Gaming::output(std::ofstream& _outputStream) {
-	_outputStream << "This is GAMING movie with name " << this->_name << " and this director is " << this->_director << '\n';
+	_outputStream << "This is GAMING movie with name " << this->_name << " and released in " << this->_country <<" and this director is " << this->_director << '\n';
 };
 
 Cartoon::Cartoon() {
 	this->_creationMethod = typeOfCartoon::animation;
 	this->_name = "";
+	this->_country = "";
 };
 
 Cartoon::~Cartoon() {
 };
 
 void Cartoon::input(std::ifstream& _inputStream) {
-	_inputStream >> this->_name;
+	_inputStream >> this->_name >> this->_country;
 	std::string _inputData = "";
 	_inputStream >> _inputData;
 	if (_inputData == "anime")
@@ -76,7 +76,7 @@ void Cartoon::input(std::ifstream& _inputStream) {
 };
 
 void Cartoon::output(std::ofstream& _outputStream) {
-	_outputStream << "This is CARTOON movie with name " << this->_name << " and this creation method are ";
+	_outputStream << "This is CARTOON movie with name " << this->_name << " and released in " << this->_country <<" and this creation method are ";
 	switch (this->_creationMethod) {
 	case typeOfCartoon::anime: {
 		_outputStream << "anime";
