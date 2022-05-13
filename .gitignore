@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+.vs/Lab/v17/.suo
+*.db
+*.ipch
+input.txt
+*.recipe
+*.ilk
+*.log
+*.pdb
+*.tlog
+*.txt
+*.idb
