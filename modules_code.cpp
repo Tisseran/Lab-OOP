@@ -11,10 +11,12 @@ Movie* Movie::MovieIn(std::ifstream& _inputStream) {
 	Movie* _tempMovie;
 	std::string _tempString = "";
 	_inputStream >> _tempString;
-	if (_tempString == "CARTOON") 
+	if (_tempString == "CARTOON")
 		_tempMovie = new Cartoon();
-	else if (_tempString == "GAMING") 
+	else if (_tempString == "GAMING")
 		_tempMovie = new Gaming();
+	else if (_tempString == "DOCUMENT")
+		_tempMovie = new Document();
 	else
 		return NULL;
 	_tempMovie->input(_inputStream);
@@ -101,6 +103,23 @@ void Cartoon::output(std::ofstream& _outputStream) {
 	};
 	_outputStream << '\n';
 };
+
+Document::Document() {
+	this->_year = 0;
+	this->_name = "";
+};
+
+Document::~Document() {
+};
+
+void Document::input(std::ifstream& _inputStream) {
+	_inputStream >> this->_name >> this->_year;
+};
+void Document::output(std::ofstream& _outputStream) {
+	_outputStream << "This is DOCUMENT movie with name " << this->_name << " and released in " << this->_year << '\n';
+};
+
+
 
 Container::ContainerNode::ContainerNode() {
 	this->_data = NULL;

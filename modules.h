@@ -43,6 +43,17 @@ public:
 	void output(std::ofstream& _outputStream);
 };
 
+class Document : public Movie {
+private:
+	unsigned int _year;
+public:
+	Document();
+	~Document();
+	void input(std::ifstream& _inputStream);
+	void output(std::ofstream& _outputStream);
+};
+
+
 class Container {
 public:
 	Container();
