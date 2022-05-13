@@ -60,6 +60,7 @@ class Container {
 public:
 	Container();
 	~Container();
+	void sort();
 	void input(std::ifstream& _inputStream);
 	void pushback(Movie* _inputMovie);
 	void print(std::ofstream& _outputStream);
@@ -74,6 +75,7 @@ private:
 		ContainerNode* _prev;
 	};
 	ContainerNode* _head;
+	bool checkToSort(ContainerNode* _first, ContainerNode* _second);
 };
 #endif // !__MODULES__
 

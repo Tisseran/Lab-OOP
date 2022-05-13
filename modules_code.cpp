@@ -59,7 +59,7 @@ void Gaming::input(std::ifstream& _inputStream) {
 };
 
 void Gaming::output(std::ofstream& _outputStream) {
-	_outputStream << "This is GAMING movie with name " << this->_name << " (Count of vowels: "<<this->countOfVowels() << ") and this director is " << this->_director << '\n';
+	_outputStream << "This is GAMING movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and this director is " << this->_director << '\n';
 };
 
 Cartoon::Cartoon() {
@@ -156,6 +156,26 @@ Container::~Container() {
 		};
 		_current = _current->_next;
 		_current->_prev = NULL;
+	};
+};
+
+bool Container::checkToSort(ContainerNode* _first, ContainerNode* _second) {
+	if (_first->_data->countOfVowels() > _second->_data->countOfVowels())
+		return true;
+	else
+		return false;
+};
+
+void Container::sort() {
+	for (ContainerNode* _current = this->_head; (_current != this->_head->_prev && _current != NULL); _current = _current->_next) {
+		for (ContainerNode* _currentSecond = _current; (_currentSecond != this->_head->_prev && _currentSecond != NULL); ) {
+			_currentSecond = _currentSecond->_next;
+			if (Container::checkToSort(_current, _currentSecond)) {
+				Movie* _temp = _current->_data;
+				_current->_data = _currentSecond->_data;
+				_currentSecond->_data = _temp;
+			};
+		};
 	};
 };
 
