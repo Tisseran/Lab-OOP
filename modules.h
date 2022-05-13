@@ -8,6 +8,8 @@
 
 class Movie {
 public:
+	enum class _keyType;
+	_keyType _key;
 	static Movie* MovieIn(std::ifstream& _inputStream);
 	std::string _name;
 	std::string _country;
