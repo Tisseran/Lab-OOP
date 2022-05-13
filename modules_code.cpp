@@ -21,6 +21,16 @@ Movie* Movie::MovieIn(std::ifstream& _inputStream) {
 	return _tempMovie;
 };
 
+unsigned int Movie::countOfVowels() {
+	unsigned long long int _count = 0;
+	for (unsigned long long int i = 0; i < this->_name.size(); i++)
+		if (this->_name.at(i) == 'a' || this->_name.at(i) == 'e' || this->_name.at(i) == 'i' || this->_name.at(i) == 'o' || this->_name.at(i) == 'u' || this->_name.at(i) == 'y')
+			_count++;
+		else if (this->_name.at(i) == 'A' || this->_name.at(i) == 'E' || this->_name.at(i) == 'I' || this->_name.at(i) == 'O' || this->_name.at(i) == 'U' || this->_name.at(i) == 'Y')
+			_count++;
+	return _count;
+};
+
 void Movie::input(std::ifstream& _inputStream) {
 	std::string _tempString = "";
 	_inputStream >> _tempString;
@@ -48,7 +58,7 @@ void Gaming::input(std::ifstream& _inputStream) {
 };
 
 void Gaming::output(std::ofstream& _outputStream) {
-	_outputStream << "This is GAMING movie with name " << this->_name << " and this director is " << this->_director << '\n';
+	_outputStream << "This is GAMING movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and this director is " << this->_director << '\n';
 };
 
 Cartoon::Cartoon() {
@@ -76,7 +86,7 @@ void Cartoon::input(std::ifstream& _inputStream) {
 };
 
 void Cartoon::output(std::ofstream& _outputStream) {
-	_outputStream << "This is CARTOON movie with name " << this->_name << " and this creation method are ";
+	_outputStream << "This is CARTOON movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and this creation method are ";
 	switch (this->_creationMethod) {
 	case typeOfCartoon::anime: {
 		_outputStream << "anime";
@@ -127,6 +137,26 @@ Container::~Container() {
 		};
 		_current = _current->_next;
 		_current->_prev = NULL;
+	};
+};
+
+bool Container::checkToSort(ContainerNode* _first, ContainerNode* _second) {
+	if (_first->_data->countOfVowels() > _second->_data->countOfVowels())
+		return true;
+	else
+		return false;
+};
+
+void Container::sort() {
+	for (ContainerNode* _current = this->_head; (_current != this->_head->_prev && _current != NULL); _current = _current->_next) {
+		for (ContainerNode* _currentSecond = _current; (_currentSecond != this->_head->_prev && _currentSecond != NULL); ) {
+			_currentSecond = _currentSecond->_next;
+			if (Container::checkToSort(_current, _currentSecond)) {
+				Movie* _temp = _current->_data;
+				_current->_data = _currentSecond->_data;
+				_currentSecond->_data = _temp;
+			};
+		};
 	};
 };
 

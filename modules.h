@@ -12,6 +12,7 @@ public:
 	std::string _name;
 	Movie();
 	~Movie();
+	unsigned int countOfVowels();
 	virtual void input(std::ifstream& _inputStream);
 	virtual void output(std::ofstream& _outputStream);
 };
@@ -47,6 +48,7 @@ class Container {
 public:
 	Container();
 	~Container();
+	void sort();
 	void input(std::ifstream& _inputStream);
 	void pushback(Movie* _inputMovie);
 	void print(std::ofstream& _outputStream);
@@ -61,6 +63,7 @@ private:
 		ContainerNode* _prev;
 	};
 	ContainerNode* _head;
+	bool checkToSort(ContainerNode* _first, ContainerNode* _second);
 };
 #endif // !__MODULES__
 
