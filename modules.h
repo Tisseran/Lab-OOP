@@ -12,6 +12,7 @@ public:
 	std::string _name;
 	Movie();
 	~Movie();
+	unsigned int countOfVowels();
 	virtual void input(std::ifstream& _inputStream);
 	virtual void output(std::ofstream& _outputStream);
 };
