@@ -18,8 +18,11 @@ Movie* Movie::MovieIn(std::ifstream& _inputStream) {
 		_tempMovie = new Document();
 	else
 		return NULL;
-	_tempMovie->input(_inputStream);
-	return _tempMovie;
+	if (!_tempMovie->input(_inputStream))
+		return NULL;
+	else
+		return _tempMovie;
+	return NULL;
 };
 unsigned int Movie::countOfVowels() {
 	unsigned long long int _count = 0;
@@ -30,11 +33,15 @@ unsigned int Movie::countOfVowels() {
 			_count++;
 	return _count;
 };
-void Movie::input(std::ifstream& _inputStream) {
+bool Movie::input(std::ifstream& _inputStream) {
 	_inputStream >> this->_name >> this->_country;
+	return true;
 };
 void Movie::output(std::ofstream& _outputStream) {
-	_outputStream << this->_name << this->_country << '\n';
+	if (this->_name.size() > 0 && this->_country.size() > 0)
+		_outputStream << this->_name << this->_country << '\n';
+	else
+		return;
 };
 void Movie::skipCartoon(std::ofstream& _outputStream) {
 	this->output(_outputStream);
@@ -55,14 +62,21 @@ Gaming::Gaming() {
 Gaming::~Gaming() {
 	delete[] this->_director;
 };
-void Gaming::input(std::ifstream& _inputStream) {
+bool Gaming::input(std::ifstream& _inputStream) {
 	std::string _tempData = "";
 	_inputStream >> this->_name >> this->_country >> _tempData;
 	this->_director = new char[_tempData.size()+1]{'\n'};
 	strcpy(this->_director, _tempData.c_str());
+	if (strlen(this->_director) > 0)
+		return true;
+	else
+		return false;
 };
 void Gaming::output(std::ofstream& _outputStream) {
-	_outputStream << "This is GAMING movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and realesed in " << this->_country << " and this director is " << this->_director << '\n';
+	if (this->_name.size() > 0 && this->_country.size() > 0 && std::strlen(this->_director) > 0)
+		_outputStream << "This is GAMING movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and realesed in " << this->_country << " and this director is " << this->_director << '\n';
+	else
+		return;
 };
 void Gaming::skipCartoon(std::ofstream& _outputStream) {
 	this->output(_outputStream);
@@ -82,7 +96,7 @@ Cartoon::Cartoon() {
 };
 Cartoon::~Cartoon() {
 };
-void Cartoon::input(std::ifstream& _inputStream) {
+bool Cartoon::input(std::ifstream& _inputStream) {
 	_inputStream >> this->_name >> this->_country;
 	std::string _inputData = "";
 	_inputStream >> _inputData;
@@ -96,32 +110,37 @@ void Cartoon::input(std::ifstream& _inputStream) {
 		this->_creationMethod = typeOfCartoon::plasticine;
 	else if (_inputData == "sandy")
 		this->_creationMethod = typeOfCartoon::sandy;
+	else
+		return false;
+	return true;
 };
 void Cartoon::output(std::ofstream& _outputStream) {
-	_outputStream << "This is CARTOON movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and realesed in " << this->_country << " and this creation method are ";
-	switch (this->_creationMethod) {
-	case typeOfCartoon::anime: {
-		_outputStream << "anime";
-		break;
+	if (this->_name.size() > 0 && this->_country.size()) {
+		_outputStream << "This is CARTOON movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and realesed in " << this->_country << " and this creation method are ";
+		switch (this->_creationMethod) {
+		case typeOfCartoon::anime: {
+			_outputStream << "anime";
+			break;
+		};
+		case typeOfCartoon::animation: {
+			_outputStream << "animation";
+			break;
+		};
+		case typeOfCartoon::puppets: {
+			_outputStream << "puppets";
+			break;
+		};
+		case typeOfCartoon::plasticine: {
+			_outputStream << "plasticine";
+			break;
+		};
+		case typeOfCartoon::sandy: {
+			_outputStream << "sandy";
+			break;
+		};
+		};
+		_outputStream << '\n';
 	};
-	case typeOfCartoon::animation: {
-		_outputStream << "animation";
-		break;
-	};
-	case typeOfCartoon::puppets: {
-		_outputStream << "puppets";
-		break;
-	};
-	case typeOfCartoon::plasticine: {
-		_outputStream << "plasticine";
-		break;
-	};
-	case typeOfCartoon::sandy: {
-		_outputStream << "sandy";
-		break;
-	};
-	};
-	_outputStream << '\n';
 };
 void Cartoon::skipCartoon(std::ofstream& _outputStream) {
 	return;
@@ -141,11 +160,19 @@ Document::Document() {
 };
 Document::~Document() {
 };
-void Document::input(std::ifstream& _inputStream) {
-	_inputStream >> this->_name >> this->_country >> this->_year;
+bool Document::input(std::ifstream& _inputStream) {
+	int _checkInt = -1;
+	_inputStream >> this->_name >> this->_country >> _checkInt;
+	if (_checkInt >= 0) {
+		this->_year = _checkInt;
+		return true;
+	}
+	else
+		return false;
 };
 void Document::output(std::ofstream& _outputStream) {
-	_outputStream << "This is DOCUMENT movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and realesed in " << this->_country << " at " << this->_year << '\n';
+	if (this->_name.size() > 0 && this->_country.size()) 
+		_outputStream << "This is DOCUMENT movie with name " << this->_name << " (Count of vowels: " << this->countOfVowels() << ") and realesed in " << this->_country << " at " << this->_year << '\n';
 };
 void Document::skipCartoon(std::ofstream& _outputStream) {
 	this->output(_outputStream);
@@ -202,28 +229,37 @@ void Container::sort() {
 };
 void Container::input(std::ifstream& _inputStream) {
 	while (!_inputStream.eof()) {
-		this->pushback(Movie::MovieIn(_inputStream));
+		Movie* _tempMovie=Movie::MovieIn(_inputStream);
+		if (_tempMovie == NULL)
+			continue;
+		else if (_tempMovie->_name.size() <= 0)
+			continue;
+		else if (_tempMovie->_country.size() <= 0)
+			continue;
+		this->pushback(_tempMovie);
 	};
 };
 void Container::pushback(Movie* _inputMovie) {
-	ContainerNode* _newNode = new ContainerNode();
-	_newNode->_data = _inputMovie;
-	if (this->_head == NULL) {
-		this->_head = _newNode;
-		this->_head->_next = this->_head;
-		this->_head->_prev = this->_head;
-	}
-	else if (this->_head->_next == this->_head) {
-		_newNode->_next = this->_head;
-		this->_head->_next = _newNode;
-		_newNode->_prev = this->_head;
-		this->_head->_prev = _newNode;
-	}
-	else {
-		_newNode->_prev = this->_head->_prev;
-		this->_head->_prev->_next = _newNode;
-		this->_head->_prev = _newNode;
-		_newNode->_next = this->_head;
+	if (_inputMovie != NULL) {
+		ContainerNode* _newNode = new ContainerNode();
+		_newNode->_data = _inputMovie;
+		if (this->_head == NULL) {
+			this->_head = _newNode;
+			this->_head->_next = this->_head;
+			this->_head->_prev = this->_head;
+		}
+		else if (this->_head->_next == this->_head) {
+			_newNode->_next = this->_head;
+			this->_head->_next = _newNode;
+			_newNode->_prev = this->_head;
+			this->_head->_prev = _newNode;
+		}
+		else {
+			_newNode->_prev = this->_head->_prev;
+			this->_head->_prev->_next = _newNode;
+			this->_head->_prev = _newNode;
+			_newNode->_next = this->_head;
+		}
 	};
 };
 void Container::print(std::ofstream& _outputStream) {
@@ -234,6 +270,8 @@ void Container::print(std::ofstream& _outputStream) {
 		int _skip = 0;
 		std::cin >> _skip;
 		do {
+			if (_current == NULL)
+				break;
 			_count++;
 			if (_skip == 0)
 				_current->_data->output(_outputStream);

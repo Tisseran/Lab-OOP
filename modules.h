@@ -14,7 +14,7 @@ public:
 	Movie();
 	~Movie();
 	unsigned int countOfVowels();
-	virtual void input(std::ifstream& _inputStream);
+	virtual bool input(std::ifstream& _inputStream);
 	virtual void output(std::ofstream& _outputStream);
 	virtual void skipCartoon(std::ofstream& _outputStream);
 	virtual void skipGaming(std::ofstream& _outputStream);
@@ -27,7 +27,7 @@ private:
 public:
 	Gaming();
 	~Gaming();
-	void input(std::ifstream& _inputStream);
+	bool input(std::ifstream& _inputStream);
 	void output(std::ofstream& _outputStream);
 	void skipCartoon(std::ofstream& _outputStream);
 	void skipGaming(std::ofstream& _outputStream);
@@ -47,7 +47,7 @@ private:
 public:
 	Cartoon();
 	~Cartoon();
-	void input(std::ifstream& _inputStream);
+	bool input(std::ifstream& _inputStream);
 	void output(std::ofstream& _outputStream);
 	void skipCartoon(std::ofstream& _outputStream);
 	void skipGaming(std::ofstream& _outputStream);
@@ -60,7 +60,7 @@ private:
 public:
 	Document();
 	~Document();
-	void input(std::ifstream& _inputStream);
+	bool input(std::ifstream& _inputStream);
 	void output(std::ofstream& _outputStream);
 	void skipCartoon(std::ofstream& _outputStream);
 	void skipGaming(std::ofstream& _outputStream);
