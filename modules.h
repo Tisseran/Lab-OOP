@@ -8,8 +8,6 @@
 
 class Movie {
 public:
-	enum class _keyType;
-	_keyType _key;
 	static Movie* MovieIn(std::ifstream& _inputStream);
 	std::string _name;
 	std::string _country;
@@ -18,6 +16,9 @@ public:
 	unsigned int countOfVowels();
 	virtual void input(std::ifstream& _inputStream);
 	virtual void output(std::ofstream& _outputStream);
+	virtual void skipCartoon(std::ofstream& _outputStream);
+	virtual void skipGaming(std::ofstream& _outputStream);
+	virtual void skipDocument(std::ofstream& _outputStream);
 };
 
 class Gaming : public Movie {
@@ -28,6 +29,9 @@ public:
 	~Gaming();
 	void input(std::ifstream& _inputStream);
 	void output(std::ofstream& _outputStream);
+	void skipCartoon(std::ofstream& _outputStream);
+	void skipGaming(std::ofstream& _outputStream);
+	void skipDocument(std::ofstream& _outputStream);;
 };
 
 class Cartoon : public Movie {
@@ -45,6 +49,9 @@ public:
 	~Cartoon();
 	void input(std::ifstream& _inputStream);
 	void output(std::ofstream& _outputStream);
+	void skipCartoon(std::ofstream& _outputStream);
+	void skipGaming(std::ofstream& _outputStream);
+	void skipDocument(std::ofstream& _outputStream);
 };
 
 class Document : public Movie {
@@ -55,6 +62,9 @@ public:
 	~Document();
 	void input(std::ifstream& _inputStream);
 	void output(std::ofstream& _outputStream);
+	void skipCartoon(std::ofstream& _outputStream);
+	void skipGaming(std::ofstream& _outputStream);
+	void skipDocument(std::ofstream& _outputStream);
 };
 
 
@@ -77,7 +87,7 @@ private:
 		ContainerNode* _prev;
 	};
 	ContainerNode* _head;
-	bool checkToSort(ContainerNode* _first, ContainerNode* _second);
+	bool compare(ContainerNode* _first, ContainerNode* _second);
 };
 #endif // !__MODULES__
 
