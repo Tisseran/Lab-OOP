@@ -67,7 +67,6 @@ public:
 	void skipDocument(std::ofstream& _outputStream);
 };
 
-
 class Container {
 public:
 	Container();
@@ -89,5 +88,6 @@ private:
 	ContainerNode* _head;
 	bool compare(ContainerNode* _first, ContainerNode* _second);
 };
+
 #endif // !__MODULES__
 
